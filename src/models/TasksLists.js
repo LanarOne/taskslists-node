@@ -15,10 +15,6 @@ const TaskList = db.define('TaskList', {
   description: {
     type: DataTypes.TEXT,
     allowNull: false
-  },
-  amount: {
-    type: DataTypes.INTEGER,
-    allowNull: false
   }
 }, {
   timestamps: true,

@@ -1,21 +1,25 @@
 const jwt = require('jsonwebtoken');
+const { promisify } = require('util');
 const privateKey = require('../authentification/key');
 
-module.exports = (req, res, next) => {
-    const token = req.headers.authorization.split(' ')[1];
-    console.log(token);
-    if(!token){
-        return res.status(401).json({message: 'pas de token'});
+const verifyToken = promisify(jwt.verify);
+
+module.exports = async (req, res, next) => {
+  if (!req.headers.hasOwnProperty('authorization')) {
+    return res.status(401).json({ error: 'Token manquant' });
+  }
+
+  const token = req.headers.authorization.split(' ')[1];
+
+  try {
+    const decodedToken = await verifyToken(token, privateKey);
+    const userId = decodedToken.userId;
+    if (req.body.userId && req.body.userId !== userId) {
+      return res.status(401).json({ error: 'ID utilisateur incorrect' });
     }
-    jwt.verify(token, privateKey, (error, decodedToken) => {
-        if(error){
-            return res.status(401).json({message: 'mauvais token, autorisation refused'})
-        }
-        const userId = decodedToken.userId;
-        if(req.body.userId && req.body.userId !== userId){
-            res.status(401).json({message: 'id incorrect'});
-        }else{
-            next();
-        }
-    })
-}
+    next();
+  } catch (error) {
+    console.error(error);
+    return res.status(401).json({ error: 'Token invalide' });
+  }
+};
