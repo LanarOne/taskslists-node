@@ -1,6 +1,6 @@
 module.exports = (app, Taskslist) => {
     app.put('/taskslists/:id', (req,res) => {
-        const id = req.params.id;
+        const id = parseInt(req.params.id);
         const {title, description} = req.body;     
         try{
             Taskslist.findByPk(id)

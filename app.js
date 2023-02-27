@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 const db = require('./src/db/db');
 const bodyParser = require('body-parser');
-const Task = require('./src/models/Tasks');
-const TaskList = require('./src/models/TasksLists');
+const Task = require('./src/models/Task');
+const TaskList = require('./src/models/TasksList');
 const User = require('./src/models/User');
 const helmet = require('helmet');
 const cors = require('cors');
@@ -40,7 +40,10 @@ require('./src/routes/tasksLists/findByPkTasksLists')(app, TaskList, Task);
 require('./src/routes/tasksLists/destroyTasksLists')(app, TaskList, Task);
 require('./src/routes/tasksLists/updateTasksLists')(app, TaskList);
 //path crud list
-
+require('./src/routes/task/addTask')(app, Task);
+require('./src/routes/task/deleteTask')(app, Task);
+require('./src/routes/task/active')(app, Task);
+require('./src/routes/task/updateTask')(app, Task)
 //path for test auth and token (jwt)
 require('./src/routes/test')(app);
 
