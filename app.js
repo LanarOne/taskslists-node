@@ -33,6 +33,7 @@ require('./src/routes/user/addUser')(app, User);
 require('./src/routes/user/login')(app, User);
 require('./src/routes/user/deleteUser')(app, User);
 require('./src/routes/user/updateUser')(app, User);
+require('./src/routes/user/showUser')(app, User);
 //path crud taskslists
 require('./src/routes/tasksLists/addTasksLists')(app, TaskList);
 require('./src/routes/tasksLists/findAllTasksLists')(app, TaskList, Task);

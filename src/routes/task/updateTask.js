@@ -15,7 +15,8 @@ module.exports = (app, Task) => {
                 })
         }catch(err){
             console.error(err);
-            res.status(500).json({message: 'error 500', data: error});
+            const message = 'internal error'
+            return res.status(500).json({message, data: error});
         }
     })
 }

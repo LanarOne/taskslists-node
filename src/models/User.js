@@ -18,6 +18,10 @@ const User = db.define('User', {
   password: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  image : {
+    type : DataTypes.STRING(150),
+    allowNull : true
   }
 }, {
   timestamps: true,
