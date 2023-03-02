@@ -1,5 +1,7 @@
+const auth = require('../../authentification/auth');
+
 module.exports = (app, Task) => {
-    app.put('/tasks/:id', (req,res) => {
+    app.put('/tasks/:id', auth, (req,res) => {
         const id = parseInt(req.params.id);
         const {name, description, amount} = req.body;
         try{

@@ -5,10 +5,11 @@ const bodyParser = require('body-parser');
 const Task = require('./src/models/Task');
 const TaskList = require('./src/models/TasksList');
 const User = require('./src/models/User');
+const Role = require('./src/models/Role');
 const helmet = require('helmet');
 const cors = require('cors');
-
 const allowedOrigins = ['http://localhost:3000', 'http://localhost:3001'];
+const cookieParser = require('cookie-parser');
 const corsOptions = {
   origin: function (origin, callback) {
     if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
@@ -26,7 +27,8 @@ app
     //helmet -> middleware pour aider a proteger contre les injections de script, les attaques XSS, les en-têtes HTTP malveillants, etc.
     .use(helmet())
     //delimite l'acces aux endpoints
-    .use(cors(corsOptions));
+    .use(cors(corsOptions))
+    .use(cookieParser());
 
 //path crud user
 require('./src/routes/user/addUser')(app, User);
@@ -35,17 +37,17 @@ require('./src/routes/user/deleteUser')(app, User);
 require('./src/routes/user/updateUser')(app, User);
 require('./src/routes/user/showUser')(app, User);
 //path crud taskslists
-require('./src/routes/tasksLists/addTasksLists')(app, TaskList);
-require('./src/routes/tasksLists/findAllTasksLists')(app, TaskList, Task);
-require('./src/routes/tasksLists/findByPkTasksLists')(app, TaskList, Task);
-require('./src/routes/tasksLists/destroyTasksLists')(app, TaskList, Task);
-require('./src/routes/tasksLists/updateTasksLists')(app, TaskList);
+require('./src/routes/tasksLists/addTasksLists')(app, TaskList, User);
+require('./src/routes/tasksLists/findAllTasksLists')(app, TaskList, Task, User);
+require('./src/routes/tasksLists/findByPkTasksLists')(app, TaskList, Task, User);
+require('./src/routes/tasksLists/destroyTasksLists')(app, TaskList, Task, User);
+require('./src/routes/tasksLists/updateTasksLists')(app, TaskList, User);
 //path crud list
-require('./src/routes/task/addTask')(app, Task);
-require('./src/routes/task/deleteTask')(app, Task);
-require('./src/routes/task/active')(app, Task);
-require('./src/routes/task/updateTask')(app, Task);
-require('./src/routes/task/findTaskByPk')(app, Task);
+require('./src/routes/task/addTask')(app, Task, User);
+require('./src/routes/task/deleteTask')(app, Task, User);
+require('./src/routes/task/active')(app, Task, User);
+require('./src/routes/task/updateTask')(app, Task, User);
+require('./src/routes/task/findTaskByPk')(app, Task, User);
 //path for test auth and token (jwt)
 require('./src/routes/test')(app);
 

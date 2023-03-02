@@ -24,7 +24,7 @@ const TaskList = db.define('TaskList', {
 TaskList.hasMany(Task, {
     foreignKey: {
         allowNull: false,
-        name: 'articleId'
+        name: 'taskslistId'
     },
     sourceKey:'id'
 })

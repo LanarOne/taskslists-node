@@ -1,5 +1,7 @@
+const auth = require('../../authentification/auth');
+
 module.exports = (app, User) => {
-    app.get('/users', (req, res) => {
+    app.get('/users', auth, (req, res) => {
         try {
             const users = User.findAll({
                 order: [['created', 'DESC']]

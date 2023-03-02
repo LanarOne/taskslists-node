@@ -5,6 +5,7 @@ module.exports = (app, User) => {
         try{
             const password = req.body.password;
             const email = req.body.email;
+            const image = req.body.image;
             User.findOne({ where: { email } })
                 .then(element => {
                     if(element){
@@ -14,7 +15,9 @@ module.exports = (app, User) => {
                     .then(hash => {
                         User.create({
                             email: email,
-                            password: hash
+                            password: hash,
+                            image: image,
+                            roleId : 1
                         }).then(element => {
                             res.json({message: `User ${email} ajouté avec succes`, data: element});
                         })
